@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./connection-panel.component.scss']
 })
 export class ConnectionPanelComponent {
-  loading: boolean = false;
+
   loginForm!: FormGroup;
 
   constructor(public service: BrokerConnectionService,
