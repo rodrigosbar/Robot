@@ -13,6 +13,8 @@ void setup()
 {
   Serial.begin(9600);
   initLed();
+   while (!Serial)
+    delay(1);
 }
 
 void loop()

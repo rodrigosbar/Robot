@@ -1,17 +1,21 @@
-# Robot
-códigos relacionados ao controle de um Robô de telepresença com controle fpv e mascote.
+# Descrição do projeto
 
+Robô de telepresença fpv  e mascote.
+Projeto que envolve conceitos de eletrônica, programação e IOT.
 
-#bateria 
+Para replicar o projeto deve-se mudar o nome do arquivo configExample.h para config.h
+e depois colocar as configurações do servidor MQTT de sua escolha.  
 
-
-# link para o controle de led e configuração inicial da IDE
+# Referências
+## Controle de led e configuração da IDE arduino com o nodemcu
 https://www.robocore.net/tutoriais/como-programar-nodemcu-arduino-ide
 
-
-# Link de Ponte H para controlar os motores
+## Ponte H para controlar os motores
 https://blog.eletrogate.com/guia-definitivo-de-uso-da-ponte-h-l298n/
 
-# Esquema de montagem do circuito para 2 motores com uma única alimentação 
-
+## Montagem do circuito para 2 motores com alimentação única
 https://www.instructables.com/WiFi-Controlled-Robot-With-NodeMCU/
+
+## Protocolo de comunicação MQTT e como configurar 
+https://www.hivemq.com/
+https://www.hivemq.com/article/mqtt-on-arduino-nodemcu-esp8266-hivemq-cloud/
