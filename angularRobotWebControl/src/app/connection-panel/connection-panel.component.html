@@ -1,0 +1,31 @@
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-subtitle>Conecte-se ao broker MQTT</mat-card-subtitle>
+    <mat-card-title>Digite usuário e senha</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="loginForm">
+      <mat-form-field >
+        <mat-label>Usuário</mat-label>
+        <input type="text" matInput formControlName="user" placeholder="Ex. RodrigoSoares">
+        <mat-error *ngIf="loginForm.get('user')?.hasError('min') ">
+          digite um usuário válido
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('user')?.hasError('required')">
+         O usuário é <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+    </form>
+
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" *ngIf="!service.brokerConnected">Conectar ao Broker</button>
+    <button mat-raised-button color="primary" *ngIf="service.brokerConnected">Conectar ao Robô</button>
+    <button mat-raised-button color="primary" *ngIf="service.brokerConnected">Ligar Led</button>
+    <button mat-raised-button color="primary" *ngIf="service.brokerConnected">Desligar Led</button>
+  </mat-card-actions>
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

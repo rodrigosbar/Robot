@@ -1,4 +1,5 @@
 export const environment = {
   userName:'rssoares',
-  passWord:'iasd31r'
+  passWord:'iasd31r',
+  production: true,
 };
