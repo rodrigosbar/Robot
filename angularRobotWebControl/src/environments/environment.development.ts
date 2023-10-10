@@ -1,4 +1,5 @@
 export const environment = {
-  userName:'dev',
-  passWord:'dev'
+  userName:'devi',
+  passWord:'devi',
+  production: false,
 };

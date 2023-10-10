@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BrokerConnectionService } from '../broker-connection.service';
 
 @Component({
   selector: 'app-header',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  user: string = '';
+  password:string ='';
+
+
+  constructor(private service: BrokerConnectionService) {
+
+  }
 
 }
