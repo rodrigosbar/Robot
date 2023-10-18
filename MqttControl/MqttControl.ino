@@ -119,7 +119,6 @@ void mudarLed(bool ligar)
   Serial.println(ledState);
 }
 
-
 void setup()
 {
   Serial.begin(9600);
@@ -135,8 +134,6 @@ void setup()
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
 }
-
-
 
 void loop()
 {
