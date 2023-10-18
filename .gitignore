@@ -1,1 +1,6 @@
 MqttControl/config.h
+webControl/
+angularWebControler/dist
+angularWebControler/node_modules
+angularWebControler/node_modules
+angularWebControler/src/environments
