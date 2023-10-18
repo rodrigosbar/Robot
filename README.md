@@ -35,4 +35,6 @@ https://www.hivemq.com/article/mqtt-on-arduino-nodemcu-esp8266-hivemq-cloud/
 
 https://www.hivemq.com/article/ultimate-guide-on-how-to-use-mqtt-with-node-js/
 
-https://github.com/hivemq-cloud/mqtt.js-client-example
+https://www.hivemq.com/article/mqtt-client-library-encyclopedia-paho-js/
+
+

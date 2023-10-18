@@ -7,16 +7,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BrokerService {
   private client: Paho.Client | null = null;
+  isConnected: boolean = false;
+  messageStatus: string = 'Coloque o usuário e senha do broker';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  async connectToBroker() {
-    const hostname = 'b5591e2e960d4011a3027e9973460de5.s1.eu.hivemq.cloud'; // Remova 'mqtts://'
+  async connectToBroker(username: string, password: string) {
+    this.messageStatus = 'Tentando se conectar ao Broker MQTT ...'
+    const hostname = 'b5591e2e960d4011a3027e9973460de5.s1.eu.hivemq.cloud';
     const port = 8884;
-    const clientId = 'controlerWeb1';
-    const username = ''; // colocar pela tela 
-    const password = ''; // colocar pela tela
-  
+    const clientId = 'controlerWebAngular';
+
     const options: Paho.ConnectionOptions = {
       useSSL: true, // Mantenha isso como verdadeiro para usar TLS
       onSuccess: this.onConnect.bind(this),
@@ -24,33 +25,35 @@ export class BrokerService {
       userName: username,
       password: password,
     };
-  
+
     this.client = new Paho.Client(hostname, port, clientId);
-  
+
     // Set callback handlers
     this.client.onConnectionLost = this.onConnectionLost.bind(this);
     this.client.onMessageArrived = this.onMessageArrived.bind(this);
-  
+
     // Connect the client
     this.client.connect(options);
   }
-  
+
 
   onConnect() {
-    console.log('Conexão MQTT estabelecida com sucesso no broker.');
+    this.messageStatus = 'Conexão MQTT estabelecida com sucesso no broker...'
     this.subscribeToTopic('led_state');
-
-    this.publishMessage('robotMessages','Olá mundo, sou o controle Angular ficando online para controlar o led  '+
-    new Date().toLocaleDateString()+' - '+new Date().toLocaleTimeString());
+    this.isConnected = true;
+    this.publishMessage('robotMessages', 'Olá mundo, controle Web Angular online para controlar o led  ' +
+      new Date().toLocaleDateString() + ' - ' + new Date().toLocaleTimeString());
   }
 
   onFailure(error: any) {
-    console.error('Erro na conexão MQTT:', error.errorMessage);
+    this.messageStatus = 'Erro na conexão MQTT: ' + error.errorMessage
+    this.isConnected = false;
   }
 
   onConnectionLost(responseObject: any) {
     if (responseObject.errorCode !== 0) {
-      console.log('Conexão MQTT perdida: ' + responseObject.errorMessage);
+      this.messageStatus = 'Conexão MQTT perdida: ' + responseObject.errorMessage;
+      this.isConnected = false;
     }
   }
 
@@ -61,9 +64,10 @@ export class BrokerService {
   subscribeToTopic(topic: string) {
     if (this.client && this.client.isConnected()) {
       this.client.subscribe(topic, { qos: 0 });
-      console.log('topico inscrito: ', topic);
+      console.log('Inscrito no tópico: ', topic);
     } else {
       console.warn('Conexão MQTT não está ativa. Não é possível se inscrever no tópico.');
+
     }
   }
 
@@ -75,6 +79,16 @@ export class BrokerService {
       console.log(`Mensagem publicada em ${topic}: ${message}`);
     } else {
       console.warn('Conexão MQTT não está ativa. Não é possível publicar mensagens.');
+      this.messageStatus = 'Conexão MQTT não está ativa. Não é possível publicar mensagens.';
+
     }
   }
+
+  disconnectFromBroker() {
+    if (this.client && this.client.isConnected()) {
+      this.client.disconnect();
+      console.log('Desconectado do broker MQTT.');
+    }
+  }
+
 }
