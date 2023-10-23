@@ -1,4 +1,5 @@
 MqttControl/config.h
+robotCode/config.h
 webControl/
 angularWebControler/dist
 angularWebControler/node_modules
