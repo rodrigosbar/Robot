@@ -5,7 +5,8 @@
   <span>Robô de Telepresença FPV</span>
   <div class="spacer"></div>
 
-  <a  class="linked" target="_blank" rel="noopener" title="Linkedin"  href="https://www.linkedin.com/in/rodrigo-soares-da-silva/"> Desenvolvido por Rodrigo Soares da Silva </a>
+  <a class="linked" target="_blank" rel="noopener" title="Linkedin"
+    href="https://www.linkedin.com/in/rodrigo-soares-da-silva/"> Desenvolvido por Rodrigo Soares da Silva </a>
 
 </div>
 
@@ -45,62 +46,89 @@
   <!-- Resources -->
   <h2>{{brokerService.messageStatus}}</h2>
 
-  <div class="card-container">
 
 
-    <form [formGroup]="loginForm" *ngIf="!brokerService.isConnected">
-      <div class="form-group">
-        <label for="username">Usuário:</label>
-        <input type="text" id="username" formControlName="username" />
+  <form [formGroup]="loginForm" *ngIf="!brokerService.isConnected">
+    <div class="form-group">
+      <label for="username">Usuário:</label>
+      <input type="text" id="username" formControlName="username" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Senha:</label>
+      <input type="password" id="password" formControlName="password" />
+      <div *ngIf="loginForm.get('password')?.hasError('minlength')">
+        <span> Senha deve ter pelo menos 6 caracteres. </span>
       </div>
-
-      <div class="form-group">
-        <label for="password">Senha:</label>
-        <input type="password" id="password" formControlName="password" />
-        <div *ngIf="loginForm.get('password')?.hasError('minlength')">
-          <span> Senha deve ter pelo menos 6 caracteres. </span>
-        </div>
-        <div *ngIf="loginForm.get('password')?.hasError('pattern')">
-          <span> Senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um dígito. </span>
-        </div>
+      <div *ngIf="loginForm.get('password')?.hasError('pattern')">
+        <span> Senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um dígito. </span>
       </div>
+    </div>
 
 
-    </form>
+  </form>
+
+  <button mat-raised-button color="primary" *ngIf="!brokerService.isConnected" [disabled]="loginForm.invalid"
+    (click)="connectToBroker()">Conectar</button>
 
 
+  <a *ngIf="brokerService.isConnected" class="card" target="_blank" rel="noopener" (click)="mudarLed()">
+    <svg class="material-icons " [ngClass]="{'icon-red': ledState===1}" xmlns="http://www.w3.org/2000/svg" width="24"
+      height="24" viewBox="0 0 24 24">
+      <path
+        d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z" />
+    </svg>
+
+    <span>Mudar Led</span>
+
+    <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+    </svg>
+  </a>
 
 
+  <div class="controlerContainer">
+
+    <div class="linha north">
+      <button mat-fab [color]="motorState==='aheadLeft'?'accent':'primary'" (mousedown)="goMotors('aheadLeft')" (mouseup)="goMotors('stop')">
+        <mat-icon>north_west</mat-icon>
+      </button>
+      <button mat-fab [color]="motorState==='ahead'?'accent':'primary'" (mousedown)="goMotors('ahead')" (mouseup)="goMotors('stop')">
+        <mat-icon>north</mat-icon>
+      </button>
+      <button mat-fab [color]="motorState==='aheadRight'?'accent':'primary'" (mousedown)="goMotors('aheadRight')" (mouseup)="goMotors('stop')">
+        <mat-icon>north_east</mat-icon>
+      </button>
+    </div>
+
+    <div class="linha center">
+      <button mat-fab  [color]="motorState==='left'?'accent':'primary'" (mousedown)="goMotors('left')" (mouseup)="goMotors('stop')">
+        <mat-icon>west</mat-icon>
+      </button>
+
+      <button mat-fab [color]="motorState==='stop'?'accent':'primary'" (mousedown)="goMotors('stop')" (mouseup)="goMotors('stop')">
+        <mat-icon>adjust</mat-icon>
+      </button>
+
+      <button mat-fab [color]="motorState==='right'?'accent':'primary'" (mousedown)="goMotors('right')" (mouseup)="goMotors('stop')">
+        <mat-icon>east</mat-icon>
+      </button>
+    </div>
+
+    <div class="linha south">
+      <button mat-fab [color]="motorState==='backLeft'?'accent':'primary'" (mousedown)="goMotors('backLeft')" (mouseup)="goMotors('stop')">
+        <mat-icon>south_west</mat-icon>
+      </button>
+      <button mat-fab [color]="motorState==='back'?'accent':'primary'" (mousedown)="goMotors('back')" (mouseup)="goMotors('stop')">
+        <mat-icon>south</mat-icon>
+      </button>
+      <button mat-fab [color]="motorState==='backRight'?'accent':'primary'" (mousedown)="goMotors('backRight')" (mouseup)="goMotors('stop')">
+        <mat-icon>south_east</mat-icon>
+      </button>
+    </div>
 
   </div>
-  <div class="card-container">
-    <a *ngIf="loginForm.valid && !brokerService.isConnected" class="card" target="_blank" rel="noopener"
-      (click)="connectToBroker()">
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
-      </svg>
 
-      <span>Conectar ao Broker</span>
-
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-      </svg>
-    </a>
-
-    <a *ngIf="brokerService.isConnected" class="card" target="_blank" rel="noopener" (click)="mudarLed()">
-      <svg class="material-icons " [ngClass]="{'icon-red': led_state===1}" xmlns="http://www.w3.org/2000/svg"
-        width="24" height="24" viewBox="0 0 24 24">
-        <path
-          d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z" />
-      </svg>
-
-      <span>Mudar Led</span>
-
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-      </svg>
-    </a>
-  </div>
 
   <router-outlet></router-outlet>
 

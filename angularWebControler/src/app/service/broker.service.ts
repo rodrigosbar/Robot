@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class BrokerService {
   private client: Paho.Client | null = null;
   isConnected: boolean = false;
-  messageStatus: string = 'Coloque o usuário e senha do broker';
+  messageStatus: string = 'Conecte-se ao broker';
 
   constructor(private http: HttpClient) { }
 
@@ -38,7 +38,7 @@ export class BrokerService {
 
 
   onConnect() {
-    this.messageStatus = 'Conexão MQTT estabelecida com sucesso no broker...'
+    this.messageStatus = 'Conexão MQTT estabelecida com broker...'
     this.subscribeToTopic('led_state');
     this.isConnected = true;
     this.publishMessage('robotMessages', 'Olá mundo, controle Web Angular online para controlar o led  ' +

@@ -100,6 +100,7 @@ svg.material-icons:not(:last-child) {
   align-items: center;
   transition: all 0.2s ease-in-out;
   line-height: 24px;
+  cursor: pointer;
 }
 
 .card-container .card:not(:last-child) {
@@ -334,10 +335,21 @@ form {
 }
 
 .linked{
-  color: white;
+  color: white!important;
   padding-right: 20px;
 }
 
 .linked:hover{
   color: white;
+}
+
+.controlerContainer{
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.linha{
+  display: flex;
+  gap: 56px;
+  padding-bottom: 40px;
 }

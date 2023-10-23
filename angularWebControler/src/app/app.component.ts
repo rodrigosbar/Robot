@@ -10,16 +10,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnDestroy {
   title = 'Aplicativo Web para controle de robô FPV';
-  led_state: 0 | 1 = 0;
-
+  ledState: 0 | 1 = 0;
+  motorState: 'ahead' | 'back' | 'left' | 'right' | 'aheadLeft' | 'backRight' | 'backLeft' | 'stop'  |'aheadRight' = 'stop'
 
   loginForm!: FormGroup;
 
   constructor(public brokerService: BrokerService, private fb: FormBuilder) {
     this.loginForm = fb.group({
       username: ['', Validators.required],
-      password: [
-        '',
+      password: ['',
         Validators.compose([
           Validators.required,
           Validators.minLength(6), // Define um comprimento mínimo da senha
@@ -28,9 +27,12 @@ export class AppComponent implements OnDestroy {
       ],
     });
   }
+
+
   ngOnDestroy(): void {
     this.brokerService.disconnectFromBroker();
   }
+
 
   connectToBroker() {
     if (this.loginForm.valid) {
@@ -42,9 +44,15 @@ export class AppComponent implements OnDestroy {
   }
 
 
-
   mudarLed() {
-    this.led_state = this.led_state === 1 ? 0 : 1;
-    this.brokerService.publishMessage('led_state', this.led_state.toString());
+    this.ledState = this.ledState === 1 ? 0 : 1;
+    this.brokerService.publishMessage('led_state', this.ledState.toString());
   }
+
+
+  goMotors(moviment: 'ahead' | 'back' | 'left' | 'right' | 'aheadLeft' | 'backRight' | 'backLeft' | 'stop' |'aheadRight') {
+    this.motorState = moviment;
+    this.brokerService.publishMessage('motor_state', moviment);
+  }
+
 }
