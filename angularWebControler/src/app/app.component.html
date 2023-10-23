@@ -90,39 +90,48 @@
   <div class="controlerContainer">
 
     <div class="linha north">
-      <button mat-fab [color]="motorState==='aheadLeft'?'accent':'primary'" (mousedown)="goMotors('aheadLeft')" (mouseup)="goMotors('stop')">
+      <button mat-fab [color]="motorState==='aheadLeft'?'accent':'primary'"  
+      (touchstart)="goMotors('aheadLeft')" (touchend)="goMotors('stop')" (mousedown)="goMotors('aheadLeft')" (mouseup)="goMotors('stop')">
         <mat-icon>north_west</mat-icon>
       </button>
-      <button mat-fab [color]="motorState==='ahead'?'accent':'primary'" (mousedown)="goMotors('ahead')" (mouseup)="goMotors('stop')">
+      <button mat-fab [color]="motorState==='ahead'?'accent':'primary'" 
+      (mousedown)="goMotors('ahead')" (mouseup)="goMotors('stop')" (touchstart)="goMotors('ahead')" (touchend)="goMotors('stop')">
         <mat-icon>north</mat-icon>
       </button>
-      <button mat-fab [color]="motorState==='aheadRight'?'accent':'primary'" (mousedown)="goMotors('aheadRight')" (mouseup)="goMotors('stop')">
+      <button mat-fab [color]="motorState==='aheadRight'?'accent':'primary'" 
+      (mousedown)="goMotors('aheadRight')" (mouseup)="goMotors('stop')" (touchstart)="goMotors('aheadRight')" (touchend)="goMotors('stop')">
         <mat-icon>north_east</mat-icon>
       </button>
     </div>
 
     <div class="linha center">
-      <button mat-fab  [color]="motorState==='left'?'accent':'primary'" (mousedown)="goMotors('left')" (mouseup)="goMotors('stop')">
+      <button mat-fab  [color]="motorState==='left'?'accent':'primary'" 
+      (mousedown)="goMotors('left')" (mouseup)="goMotors('stop')" (touchstart)="goMotors('left')" (touchend)="goMotors('stop')">
         <mat-icon>west</mat-icon>
       </button>
 
-      <button mat-fab [color]="motorState==='stop'?'accent':'primary'" (mousedown)="goMotors('stop')" (mouseup)="goMotors('stop')">
+      <button mat-fab [color]="motorState==='stop'?'accent':'primary'" 
+      (mousedown)="goMotors('stop')" (mouseup)="goMotors('stop')" (touchstart)="goMotors('stop')" (touchend)="goMotors('stop')">
         <mat-icon>adjust</mat-icon>
       </button>
 
-      <button mat-fab [color]="motorState==='right'?'accent':'primary'" (mousedown)="goMotors('right')" (mouseup)="goMotors('stop')">
+      <button mat-fab [color]="motorState==='right'?'accent':'primary'" 
+      (mousedown)="goMotors('right')" (mouseup)="goMotors('stop')" (touchstart)="goMotors('right')" (touchend)="goMotors('stop')">
         <mat-icon>east</mat-icon>
       </button>
     </div>
 
     <div class="linha south">
-      <button mat-fab [color]="motorState==='backLeft'?'accent':'primary'" (mousedown)="goMotors('backLeft')" (mouseup)="goMotors('stop')">
+      <button mat-fab [color]="motorState==='backLeft'?'accent':'primary'" 
+      (mousedown)="goMotors('backLeft')" (mouseup)="goMotors('stop')" (touchstart)="goMotors('backLeft')" (touchend)="goMotors('stop')">
         <mat-icon>south_west</mat-icon>
       </button>
-      <button mat-fab [color]="motorState==='back'?'accent':'primary'" (mousedown)="goMotors('back')" (mouseup)="goMotors('stop')">
+      <button mat-fab [color]="motorState==='back'?'accent':'primary'"
+      (mousedown)="goMotors('back')" (mouseup)="goMotors('stop')" (touchstart)="goMotors('back')" (touchend)="goMotors('stop')">
         <mat-icon>south</mat-icon>
       </button>
-      <button mat-fab [color]="motorState==='backRight'?'accent':'primary'" (mousedown)="goMotors('backRight')" (mouseup)="goMotors('stop')">
+      <button mat-fab [color]="motorState==='backRight'?'accent':'primary'" (mousedown)="goMotors('backRight')" (mouseup)="goMotors('stop')"
+      (touchstart)="goMotors('backRight')" (touchend)="goMotors('stop')">
         <mat-icon>south_east</mat-icon>
       </button>
     </div>
