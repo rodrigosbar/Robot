@@ -52,7 +52,10 @@ void setup()
   Serial.begin(9600);
 
   while (!Serial)
+  {
     delay(1);
+  }
+
   initMotors();
   initLed();
   setup_wifi();
@@ -111,7 +114,7 @@ void driftCorrection()
 void goAhead()
 {
   driftCorrection();
-  
+
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
   analogWrite(ENA, speedCar);
@@ -155,7 +158,7 @@ void goRight()
 
   digitalWrite(IN_3, HIGH);
   digitalWrite(IN_4, LOW);
-  analogWrite(ENB, speedCar - 100) ;
+  analogWrite(ENB, speedCar - 100);
 }
 
 void goAheadLeft()
@@ -262,6 +265,7 @@ void reconnect()
   // Loop until we're reconnected
   while (!client.connected())
   {
+    stopRobot();
     Serial.print("Attempting MQTT connection...");
     String clientId = "Robot-";
     clientId += String(random(0xffff), HEX); // Create a random client ID
@@ -274,6 +278,7 @@ void reconnect()
     }
     else
     {
+      isOnlineRobot = false;
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again MQTT in 5 seconds"); // Wait 5 seconds before retrying
