@@ -44,7 +44,7 @@ bool ledState = false;  // estado atual do led
 #define IN_2 13     // L298N in2 motors Right           GPIO13(D7)
 #define IN_3 2      // L298N in3 motors Left            GPIO2(D4)
 #define IN_4 0      // L298N in4 motors Left            GPIO0(D3)
-int speedCar = 400; // 400 - 1023.
+int speedCar = 350; // 350 - 1023.
 int speed_Coeff = 3;
 
 void setup()
@@ -100,33 +100,18 @@ void initMotors()
   stopRobot();
 }
 
-void testarRobo()
+void driftCorrection()
 {
-  delay(1000);
-  Serial.println(F("FRENTE - 5s"));
-  mudarLed(true);
-  goAhead();
-  delay(5000);
-
-  Serial.println(F("PARADO: 5s"));
-  mudarLed(false);
-  stopRobot();
-  delay(5000);
-
-  Serial.println(F("PARA TRÁS: 5s"));
-  mudarLed(true);
-  goBack();
-  delay(5000);
-
-  Serial.println(F("PARADO: 5s"));
-  mudarLed(false);
-  stopRobot();
-  delay(5000);
+  goAheadLeft();
+  delay(15);
+  goAheadRight();
+  delay(15);
 }
 
 void goAhead()
 {
-
+  driftCorrection();
+  
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
   analogWrite(ENA, speedCar);
@@ -134,11 +119,11 @@ void goAhead()
   digitalWrite(IN_3, LOW);
   digitalWrite(IN_4, HIGH);
   analogWrite(ENB, speedCar);
-  Serial.println(F("FRENTE"));
 }
 
 void goBack()
 {
+  driftCorrection();
 
   digitalWrite(IN_1, HIGH);
   digitalWrite(IN_2, LOW);
@@ -147,46 +132,30 @@ void goBack()
   digitalWrite(IN_3, HIGH);
   digitalWrite(IN_4, LOW);
   analogWrite(ENB, speedCar);
-  Serial.println(F("ATRAS"));
-}
-
-void goRight()
-{
-
-  digitalWrite(IN_1, HIGH);
-  digitalWrite(IN_2, LOW);
-  analogWrite(ENA, speedCar);
-
-  digitalWrite(IN_3, LOW);
-  digitalWrite(IN_4, HIGH);
-  analogWrite(ENB, speedCar);
-  Serial.println(F("DIREITA"));
 }
 
 void goLeft()
 {
 
-  digitalWrite(IN_1, LOW);
-  digitalWrite(IN_2, HIGH);
-  analogWrite(ENA, speedCar);
+  digitalWrite(IN_1, HIGH);
+  digitalWrite(IN_2, LOW);
+  analogWrite(ENA, speedCar - 100);
 
-  digitalWrite(IN_3, HIGH);
-  digitalWrite(IN_4, LOW);
-  analogWrite(ENB, speedCar);
-  Serial.println(F("ESQUERDA"));
+  digitalWrite(IN_3, LOW);
+  digitalWrite(IN_4, HIGH);
+  analogWrite(ENB, speedCar - 100);
 }
 
-void goAheadRight()
+void goRight()
 {
 
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
-  analogWrite(ENA, speedCar / speed_Coeff);
+  analogWrite(ENA, speedCar - 100);
 
-  digitalWrite(IN_3, LOW);
-  digitalWrite(IN_4, HIGH);
-  analogWrite(ENB, speedCar);
-  Serial.println(F("FRENTE DIREITA"));
+  digitalWrite(IN_3, HIGH);
+  digitalWrite(IN_4, LOW);
+  analogWrite(ENB, speedCar - 100) ;
 }
 
 void goAheadLeft()
@@ -194,15 +163,26 @@ void goAheadLeft()
 
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
+  analogWrite(ENA, speedCar / speed_Coeff);
+
+  digitalWrite(IN_3, LOW);
+  digitalWrite(IN_4, HIGH);
+  analogWrite(ENB, speedCar);
+}
+
+void goAheadRight()
+{
+
+  digitalWrite(IN_1, LOW);
+  digitalWrite(IN_2, HIGH);
   analogWrite(ENA, speedCar);
 
   digitalWrite(IN_3, LOW);
   digitalWrite(IN_4, HIGH);
   analogWrite(ENB, speedCar / speed_Coeff);
-  Serial.println(F("FRENTE ESQUERDA"));
 }
 
-void goBackRight()
+void goBackLeft()
 {
 
   digitalWrite(IN_1, HIGH);
@@ -212,10 +192,9 @@ void goBackRight()
   digitalWrite(IN_3, HIGH);
   digitalWrite(IN_4, LOW);
   analogWrite(ENB, speedCar);
-  Serial.println(F("ATRAS DIREITA"));
 }
 
-void goBackLeft()
+void goBackRight()
 {
 
   digitalWrite(IN_1, HIGH);
@@ -225,7 +204,6 @@ void goBackLeft()
   digitalWrite(IN_3, HIGH);
   digitalWrite(IN_4, LOW);
   analogWrite(ENB, speedCar / speed_Coeff);
-  Serial.println(F("ATRAS ESQUERDA"));
 }
 
 void stopRobot()
@@ -252,8 +230,6 @@ void mudarLed(bool ligar)
 {
   digitalWrite(pinoLed, ligar ? HIGH : LOW);
   ledState = !ledState;
-  Serial.print(F("LED State novo : "));
-  Serial.println(ledState);
 }
 
 /*******************************************************************************
@@ -293,7 +269,7 @@ void reconnect()
     if (client.connect(clientId.c_str(), mqtt_username, mqtt_password))
     {
       Serial.println("connected to MQTT");
-      client.subscribe("led_state"); // subscribe the topics here
+      client.subscribe("led_state");   // subscribe the topics here
       client.subscribe("motor_state"); // subscribe the topics here
     }
     else
@@ -313,7 +289,7 @@ void callback(char *topic, byte *payload, unsigned int length)
   for (int i = 0; i < length; i++)
     incommingMessage += (char)payload[i];
 
-  Serial.println("Mensagem MQTT [" + String(topic) + "]" + incommingMessage);
+  Serial.println("MQTT [" + String(topic) + "] -> " + incommingMessage);
 
   //--- check the incomming message
   if (strcmp(topic, "led_state") == 0)
