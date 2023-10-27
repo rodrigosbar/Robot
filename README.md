@@ -15,19 +15,20 @@ e depois colocar as configurações do servidor MQTT de sua escolha.
 
 # Referências
 
-### Controle de led e configuração da IDE arduino com o nodemcu
+## Controle de led e configuração da IDE arduino com o nodemcu
 
 https://www.robocore.net/tutoriais/como-programar-nodemcu-arduino-ide
 
-### Ponte H para controlar os motores
+## Ponte H para controlar os motores
 
 https://blog.eletrogate.com/guia-definitivo-de-uso-da-ponte-h-l298n/
 
-### Montagem do circuito para 2 motores com alimentação única
+## Montagem do circuito para 2 motores com alimentação única
 
 https://www.instructables.com/WiFi-Controlled-Robot-With-NodeMCU/
 
-### Protocolo de comunicação MQTT e como configurar
+
+## Protocolo de comunicação MQTT e como configurar no Robô e no controle web
 
 https://www.hivemq.com/
 
@@ -38,3 +39,10 @@ https://www.hivemq.com/article/ultimate-guide-on-how-to-use-mqtt-with-node-js/
 https://www.hivemq.com/article/mqtt-client-library-encyclopedia-paho-js/
 
 
+## Tecnologias web para controlar o Robô remotamente
+
+ https://angular.io/ 
+
+ https://material.angular.io/
+
+ https://github.com/wweitzel/ngx-joystick

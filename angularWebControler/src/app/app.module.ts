@@ -8,9 +8,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button'; 
 import {MatIconModule} from '@angular/material/icon'; 
+import { NgxJoystickModule } from 'ngx-joystick';
+import { JoystickComponent } from './components/joystick/joystick.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    JoystickComponent
   ],
   imports: [
     BrowserModule,
@@ -19,8 +22,9 @@ import {MatIconModule} from '@angular/material/icon';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatIconModule
-  ],
+    MatIconModule,
+    NgxJoystickModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -44,7 +44,7 @@ bool ledState = false;  // estado atual do led
 #define IN_2 13     // L298N in2 motors Right           GPIO13(D7)
 #define IN_3 2      // L298N in3 motors Left            GPIO2(D4)
 #define IN_4 0      // L298N in4 motors Left            GPIO0(D3)
-int speedCar = 350; // 350 - 1023.
+int speedCar = 450; // 350 - 1023.
 int speed_Coeff = 3;
 
 void setup()
@@ -106,7 +106,7 @@ void initMotors()
 void driftCorrection()
 {
   goAheadLeft();
-  delay(15);
+  delay(10);
   goAheadRight();
   delay(15);
 }
