@@ -14,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   title = 'Aplicativo Web para controle de robô FPV';
   ledState: 0 | 1 = 0;
-  motorState: 'ahead' | 'back' | 'left' | 'right' | 'aheadLeft' | 'backRight' | 'backLeft' | 'stop'  |'aheadRight' = 'stop'
+  motorState: 'ahead' | 'back' | 'left' | 'right' | 'aheadLeft' | 'backRight' | 'backLeft' | 'stop' | 'aheadRight' = 'stop'
   loginForm!: FormGroup;
 
 
@@ -54,11 +54,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onStartStatic(event: JoystickEvent) {
+    console.log('onStartStatic', event);
     this.interactingStatic = true;
   }
 
   onEndStatic(event: JoystickEvent) {
     this.interactingStatic = false;
+    this.goMotors('stop');
   }
 
   onMoveStatic(event: JoystickEvent) {
@@ -100,7 +102,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  goMotors(moviment: 'ahead' | 'back' | 'left' | 'right' | 'aheadLeft' | 'backRight' | 'backLeft' | 'stop' |'aheadRight') {
+  goMotors(moviment: 'ahead' | 'back' | 'left' | 'right' | 'aheadLeft' | 'backRight' | 'backLeft' | 'stop' | 'aheadRight') {
     this.motorState = moviment;
     this.brokerService.publishMessage('motor_state', moviment);
   }
