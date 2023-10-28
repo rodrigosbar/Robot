@@ -1,8 +1,5 @@
-
 <div class="brokerContainer">
   <h2>{{brokerService.messageStatus}}</h2>
-
-
 
   <form [formGroup]="loginForm" *ngIf="!brokerService.isConnected">
     <div class="form-group">
@@ -39,35 +36,13 @@
 </div>
 
 
-
-
-
-
 <div class="controler noselect">
-    <div class="zone">
-        <ngx-joystick #staticJoystic
-                        [options]="staticOptions"
-                        (start)="onStartStatic($event)"
-                        (end)="onEndStatic($event)"
-                        (move)="onMoveStatic($event)"
-                        (plainUp)="onPlainUpStatic($event)"
-                        (plainDown)="onPlainDownStatic($event)"
-                        (plainLeft)="onPlainLeftStatic($event)"
-                        (plainRight)="onPlainRightStatic($event)"></ngx-joystick>
-    </div>
-    <div *ngIf="staticOutputData" class="zone-absolute">
-        <div style="float: right;">
-            <div>xPos: {{ staticOutputData.position.x | number:'3.2-2'}}</div>
-            <div>yPos: {{ staticOutputData.position.y | number:'3.2-2'}}</div>
-            <div>dirEvent: {{ directionStatic }}</div>
-            <div>interact: {{ interactingStatic }}</div>
-        </div>
-        <div>frontXPos: {{ staticOutputData.instance.frontPosition.x | number:'2.5-5'}}</div>
-        <div>frontYPos: {{ staticOutputData.instance.frontPosition.y | number:'2.5-5'}}</div>
-        <div>force: {{ staticOutputData.force | number:'1.5-5'}}</div>
-        <div>angle-deg: {{ staticOutputData.angle.degree | number:'3.5-5'}}</div>
-        <div>angle-rad: {{ staticOutputData.angle.radian }}</div>
-        <div>direction: {{ staticOutputData.direction ? staticOutputData.direction.angle : ''}}</div>
-        <div>distance: {{ staticOutputData.distance }}</div>
-    </div>
+  <div class="zone">
+    <ngx-joystick #staticJoystic [options]="staticOptions" (start)="onStartStatic($event)" (end)="onEndStatic($event)"
+      (move)="onMoveStatic($event)"></ngx-joystick>
+  </div>
+  <div *ngIf="staticOutputData" class="zone-absolute">
+    <div>Motor state: {{ motorState}}</div>
+    <div>distance: {{ staticOutputData.distance }}</div>
+  </div>
 </div>

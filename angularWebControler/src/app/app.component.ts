@@ -17,17 +17,16 @@ export class AppComponent implements OnInit, OnDestroy {
   motorState: 'ahead' | 'back' | 'left' | 'right' | 'aheadLeft' | 'backRight' | 'backLeft' | 'stop' | 'aheadRight' = 'stop'
   loginForm!: FormGroup;
 
-
   @ViewChild('staticJoystic') staticJoystick!: NgxJoystickComponent;
   staticOptions: JoystickManagerOptions = {
     mode: 'static',
     position: { left: '50%', top: '50%' },
     color: 'blue',
   };
+
   staticOutputData!: any;
   directionStatic!: string;
   interactingStatic!: boolean;
-
 
 
   constructor(public brokerService: BrokerService, private fb: FormBuilder) {
@@ -43,47 +42,59 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-
   ngOnDestroy(): void {
     this.brokerService.disconnectFromBroker();
   }
-
-
 
   ngOnInit() {
   }
 
   onStartStatic(event: JoystickEvent) {
-    console.log('onStartStatic', event);
     this.interactingStatic = true;
   }
 
   onEndStatic(event: JoystickEvent) {
     this.interactingStatic = false;
     this.goMotors('stop');
+
   }
 
   onMoveStatic(event: JoystickEvent) {
     this.staticOutputData = event.data;
+    if (this.staticOutputData?.distance > 15) {
+      let direction = this.staticOutputData.direction ? this.staticOutputData.direction.angle : '';
+      const dg = parseFloat(this.staticOutputData?.angle?.degree?.toFixed(2));
+
+      direction = direction === 'up' ? 'ahead' : direction === 'down' ? 'back' : direction;
+
+      if (dg >= 24 && dg <= 60) {
+        direction = 'aheadRight';
+      }
+
+      if (dg >= 114 && dg <= 150) {
+        direction = 'aheadLeft';
+      }
+
+      if (dg >= 151 && dg <= 200) {
+        direction = 'left';
+      }
+
+      if (dg >= 201 && dg <= 245) {
+        direction = 'backLeft';
+      }
+
+      if (dg >= 300 && dg <= 340) {
+        direction = 'backRight';
+      }
+
+      if (this.motorState != direction) {
+        this.motorState = direction;
+        this.goMotors(this.motorState)
+      }
+
+    }
+
   }
-
-  onPlainUpStatic(event: JoystickEvent) {
-    this.directionStatic = 'UP';
-  }
-
-  onPlainDownStatic(event: JoystickEvent) {
-    this.directionStatic = 'DOWN';
-  }
-
-  onPlainLeftStatic(event: JoystickEvent) {
-    this.directionStatic = 'LEFT';
-  }
-
-  onPlainRightStatic(event: JoystickEvent) {
-    this.directionStatic = 'RIGHT';
-  }
-
-
 
 
   connectToBroker() {
@@ -92,7 +103,6 @@ export class AppComponent implements OnInit, OnDestroy {
       const password = this.loginForm.value?.password;
       this.brokerService.connectToBroker(username, password);
     }
-
   }
 
 
@@ -103,7 +113,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   goMotors(moviment: 'ahead' | 'back' | 'left' | 'right' | 'aheadLeft' | 'backRight' | 'backLeft' | 'stop' | 'aheadRight') {
-    this.motorState = moviment;
     this.brokerService.publishMessage('motor_state', moviment);
   }
 
