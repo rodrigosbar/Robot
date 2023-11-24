@@ -56,12 +56,12 @@ export class AppComponent implements OnInit, OnDestroy {
   onEndStatic(event: JoystickEvent) {
     this.interactingStatic = false;
     this.goMotors('stop');
-
+    this.motorState = 'stop';
   }
 
   onMoveStatic(event: JoystickEvent) {
     this.staticOutputData = event.data;
-    if (this.staticOutputData?.distance > 15) {
+    if (this.staticOutputData?.distance > 30) {
       let direction = this.staticOutputData.direction ? this.staticOutputData.direction.angle : '';
       const dg = parseFloat(this.staticOutputData?.angle?.degree?.toFixed(2));
 
@@ -92,6 +92,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.goMotors(this.motorState)
       }
 
+    }
+
+    if(this.staticOutputData?.distance <= 30){
+      this.goMotors('stop');
+      this.motorState = 'stop';
     }
 
   }

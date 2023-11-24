@@ -38,14 +38,15 @@ bool ledState = false;  // estado atual do led
 /*******************************************************************************
  * Variáveis para controlar os motores
  *******************************************************************************/
-#define ENA 14      // Enable/speed motors Right        GPIO14(D5)
-#define ENB 12      // Enable/speed motors Left         GPIO12(D6)
-#define IN_1 15     // L298N in1 motors Rightx          GPIO15(D8)
-#define IN_2 13     // L298N in2 motors Right           GPIO13(D7)
-#define IN_3 2      // L298N in3 motors Left            GPIO2(D4)
-#define IN_4 0      // L298N in4 motors Left            GPIO0(D3)
+#define ENA 14      // Enable/speed motors Left        GPIO14(D5)
+#define ENB 12      // Enable/speed motors Right         GPIO12(D6)
+#define IN_1 15     // L298N in1 motors Leftx          GPIO15(D8)
+#define IN_2 13     // L298N in2 motors Leftt           GPIO13(D7)
+#define IN_3 2      // L298N in3 motors Right            GPIO2(D4)
+#define IN_4 0      // L298N in4 motors Right            GPIO0(D3)
 int speedCar = 450; // 350 - 1023.
 int speed_Coeff = 3;
+String motorState = "stop";
 
 void setup()
 {
@@ -105,23 +106,24 @@ void initMotors()
 
 void driftCorrection()
 {
-  goAheadLeft();
-  delay(10);
   goAheadRight();
-  delay(15);
+  delay(10);
+  goAheadLeft();
+  delay(3);
 }
 
 void goAhead()
 {
+
   driftCorrection();
 
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
-  analogWrite(ENA, speedCar);
+  analogWrite(ENA, speedCar); // esquerdo
 
   digitalWrite(IN_3, LOW);
   digitalWrite(IN_4, HIGH);
-  analogWrite(ENB, speedCar);
+  analogWrite(ENB, speedCar + 200); // direito
 }
 
 void goBack()
@@ -130,11 +132,11 @@ void goBack()
 
   digitalWrite(IN_1, HIGH);
   digitalWrite(IN_2, LOW);
-  analogWrite(ENA, speedCar);
+  analogWrite(ENA, speedCar); // esquerdo
 
-  digitalWrite(IN_3, HIGH);
+  digitalWrite(IN_3, HIGH); // direito
   digitalWrite(IN_4, LOW);
-  analogWrite(ENB, speedCar);
+  analogWrite(ENB, speedCar + 200);
 }
 
 void goLeft()
@@ -142,11 +144,11 @@ void goLeft()
 
   digitalWrite(IN_1, HIGH);
   digitalWrite(IN_2, LOW);
-  analogWrite(ENA, speedCar - 100);
+  analogWrite(ENA, speedCar - 250); // esquerdo
 
   digitalWrite(IN_3, LOW);
   digitalWrite(IN_4, HIGH);
-  analogWrite(ENB, speedCar - 100);
+  analogWrite(ENB, speedCar - 150); // direito
 }
 
 void goRight()
@@ -154,11 +156,11 @@ void goRight()
 
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
-  analogWrite(ENA, speedCar - 100);
+  analogWrite(ENA, speedCar - 250); // esquerdo
 
   digitalWrite(IN_3, HIGH);
   digitalWrite(IN_4, LOW);
-  analogWrite(ENB, speedCar - 100);
+  analogWrite(ENB, speedCar - 150); // direito
 }
 
 void goAheadLeft()
@@ -305,8 +307,15 @@ void callback(char *topic, byte *payload, unsigned int length)
       mudarLed(false); // Turn the LED off
   }
 
-  if (strcmp(topic, "motor_state") == 0)
+  if (strcmp(topic, "motor_state") == 0 && !incommingMessage.equals(motorState))
   {
+    Serial.println("MOTOR - [" + incommingMessage + "]");
+
+    if (!motorState.equals("stop"))
+    {
+      stopRobot();
+      delay(10);
+    }
 
     if (incommingMessage.equals("ahead"))
     {
@@ -352,6 +361,8 @@ void callback(char *topic, byte *payload, unsigned int length)
     {
       goAheadRight();
     }
+
+    motorState = incommingMessage;
   }
 }
 

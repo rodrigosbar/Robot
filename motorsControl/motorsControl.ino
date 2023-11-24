@@ -67,7 +67,7 @@ void testarRobo()
 
 void goAhead()
 {
-
+  stopRobot(10);
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
   analogWrite(ENA, speedCar);
@@ -79,7 +79,7 @@ void goAhead()
 
 void goBack()
 {
-
+ stopRobot(10);
   digitalWrite(IN_1, HIGH);
   digitalWrite(IN_2, LOW);
   analogWrite(ENA, speedCar);
@@ -91,7 +91,7 @@ void goBack()
 
 void goRight()
 {
-
+ stopRobot(10);
   digitalWrite(IN_1, HIGH);
   digitalWrite(IN_2, LOW);
   analogWrite(ENA, speedCar);
@@ -103,7 +103,7 @@ void goRight()
 
 void goLeft()
 {
-
+ stopRobot(10);
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
   analogWrite(ENA, speedCar);
@@ -115,7 +115,7 @@ void goLeft()
 
 void goAheadRight()
 {
-
+ stopRobot(10);
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
   analogWrite(ENA, speedCar / speed_Coeff);
@@ -127,7 +127,7 @@ void goAheadRight()
 
 void goAheadLeft()
 {
-
+ stopRobot(10);
   digitalWrite(IN_1, LOW);
   digitalWrite(IN_2, HIGH);
   analogWrite(ENA, speedCar);
@@ -139,7 +139,7 @@ void goAheadLeft()
 
 void goBackRight()
 {
-
+ stopRobot(10);
   digitalWrite(IN_1, HIGH);
   digitalWrite(IN_2, LOW);
   analogWrite(ENA, speedCar / speed_Coeff);
@@ -151,7 +151,7 @@ void goBackRight()
 
 void goBackLeft()
 {
-
+ stopRobot(10);
   digitalWrite(IN_1, HIGH);
   digitalWrite(IN_2, LOW);
   analogWrite(ENA, speedCar);

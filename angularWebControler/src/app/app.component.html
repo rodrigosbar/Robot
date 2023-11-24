@@ -36,6 +36,33 @@
 </div>
 
 
+<div class="controlerContainer">
+  <div class="linha north">
+    <button mat-fab (touchstart)="goMotors('aheadLeft')"
+      (touchend)="goMotors('stop')" (mousedown)="goMotors('aheadLeft')" (mouseup)="goMotors('stop')">
+
+    </button>
+    <button mat-fab  (mousedown)="goMotors('ahead')"
+      (mouseup)="goMotors('stop')" (touchstart)="goMotors('ahead')" (touchend)="goMotors('stop')">
+    </button>
+    <button mat-fab  (mousedown)="goMotors('back')"
+      (mouseup)="goMotors('stop')" (touchstart)="goMotors('back')" (touchend)="goMotors('stop')">
+    </button>
+  </div>
+
+  <div class="linha center">
+    <button mat-fab  (mousedown)="goMotors('left')"
+      (mouseup)="goMotors('stop')" (touchstart)="goMotors('left')" (touchend)="goMotors('stop')">
+    </button>
+
+    <button mat-fab  (mousedown)="goMotors('right')"
+      (mouseup)="goMotors('stop')" (touchstart)="goMotors('right')" (touchend)="goMotors('stop')">
+
+    </button>
+  </div>
+
+</div>
+
 <div class="controler noselect">
   <div class="zone">
     <ngx-joystick #staticJoystic [options]="staticOptions" (start)="onStartStatic($event)" (end)="onEndStatic($event)"
@@ -44,5 +71,5 @@
   <div *ngIf="staticOutputData" class="zone-absolute">
     <div>Motor state: {{ motorState}}</div>
     <div>distance: {{ staticOutputData.distance }}</div>
-  </div>
+    <div>angle: {{ staticOutputData.angle.degree | number:'3.5-5'}}</div>  </div>
 </div>
